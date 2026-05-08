@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml" 
+    ports:
+      - "9090:9090"
+    networks:
+      - mon-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - mon-net
+
+# ── 네트워크 ──────────────────────────────────────────────────────────────────
+networks:
+  mon-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.1.0/24
+
+# ── 볼륨 ──────────────────────────────────────────────────────────────────────
+volumes:
+  prometheus_data:
+  grafana_data:
