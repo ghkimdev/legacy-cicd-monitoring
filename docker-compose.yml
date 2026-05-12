@@ -99,15 +99,6 @@ services:
     networks:
       - monitoring-net
 
-  pushgateway:
-    image: prom/pushgateway:latest
-    container_name: pushgateway
-    ports:
-      - "9091:9091"
-    restart: unless-stopped
-    networks:
-      - monitoring-net
-
 # ── 네트워크 ──────────────────────────────────────────────────────────────────
 networks:
   monitoring-net:
